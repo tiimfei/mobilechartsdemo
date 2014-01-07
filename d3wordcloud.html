@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no; target-densityDpi=device-dpi"/>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+
+<script src="./lib/d3/d3.js"></script>
+<script src="./lib/d3.layout.cloud.js"></script>
+<script>
+//<![CDATA[ 
+$(document).ready(function(){
+console.log("document.ready");
+});
+
+$(document).on("pageinit", '#index', function(){
+	console.log("#index pageinit");
+
+	});
+$(document).on('pageshow', '#index', function(){    
+  //Color Theme
+  var fill = d3.scale.category20c();
+
+  d3.layout.cloud().size([400, 300])
+    //  .words([
+    //    "KFC", "麦当劳", "东西", "柯震东", "半价桶", "肯德基", "现已加入"," 原味鸡","明天","广告","签到","黄金脆皮鸡","男","星巴克","肯德基爷爷",
+     //   "豪华午餐", "陈坤"].map(function(d) {
+     //   return {text: d, size: 10 + Math.random() * 90};
+    //  }))
+	.words([{text:"KFC", size: 100},
+	{text:"半价桶", size: 80},
+	{text:"麦当劳", size: 80},
+	{text:"豪华午餐", size: 80},
+	{text:"陈坤", size: 60},
+	{text:"男", size: 50},
+	{text:"原味鸡", size: 40},
+	{text:"星巴克", size: 40},
+	{text:"东西", size: 40},
+	{text:"柯震东", size: 40},
+	{text:"全天超值套餐", size: 35},
+	{text:"一个人", size: 20},
+	{text:"豪华午餐", size: 20},
+	{text:"肯德基", size: 20},
+	{text:"现已加入", size: 20},	
+	{text:"明天", size: 20},	
+	{text:"黄金脆皮鸡", size: 15},
+	{text:"肯德基爷爷", size: 15},
+	{text:"同学", size: 14},
+	{text:"套餐", size: 14},
+	{text:"公司", size: 14},
+	{text:"人们", size: 14},
+	{text:"腾讯", size: 14},
+	{text:"东方既白", size: 14},
+	{text:"小肥羊", size: 13},
+	{text:"红豆派", size: 13},
+	{text:"肯德基承诺", size: 12},
+	{text:"蜡烛", size: 12},
+	{text:"美味", size: 12},
+	{text:"黑", size: 12},
+	{text:"老师", size: 12},
+	{text:"喵小奇", size: 12},
+	
+	])
+      .padding(1)
+      .rotate(function() { return 0;})//~~(Math.random() * 2) * 90; })
+      .font("Microsoft YaHei")
+      .fontSize(function(d) { return d.size; })
+      .on("end", draw)
+      .start();
+
+  function draw(words) {
+  
+    d3.select("#container").append("svg")
+        .attr("width", 400)
+        .attr("height", 300)
+      .append("g")
+        .attr("transform", "translate(200,150)")
+      .selectAll("text")
+        .data(words)
+      .enter().append("text")
+        .style("font-size", function(d) { return d.size + "px"; })
+        .style("font-family", "Microsoft YaHei")
+        .style("fill", function(d, i) { return fill(i); })
+        .attr("text-anchor", "middle")
+        .attr("transform", function(d) {
+			console.log("text: " + d.text + "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")");
+          return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+        })
+        .text(function(d) { return d.text; });
+  }
+  });
+</script>
+
+</head>
+<body>
+<div data-role="page" id="index">
+	<div data-role="header">
+		<a href="index.html" data-ajax="false">Go back to Index</a>
+		<h1>Word Cloud (D3 Cloud)</h1>
+	</div>
+
+	<div data-role="content">
+			<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+	</div>
+		
+
+	<div data-role="footer">
+			<h1>Footer Text</h1>
+	</div>
+
+</div>
+
+<div data-role="page" id="pagetwo">
+	<div data-role="header">
+		<a href="index.html">Go back to Index</a>
+		<h1>Line Chart</h1>
+	</div>
+	<div data-role="content">
+		
+	</div>
+	<div data-role="footer">
+		<h1>Footer Text</h1>
+	</div>
+</div>
+
+
+</body>
+</html>
